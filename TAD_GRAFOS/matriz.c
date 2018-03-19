@@ -67,7 +67,7 @@ void add_aresta_m(t_grafo_m *mat, int v1 , int v2, int peso){ // função que ad
 
 
 void infos_m(t_grafo_m *mat){ // função de debug
-
+	
 	printf("!---------------------!\n");
 	printf("Grafo\n");
 	printf("Nº vértices: %d\n",mat->n_vertices);

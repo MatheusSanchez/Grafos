@@ -16,7 +16,7 @@ typedef struct t_aresta{
 typedef struct t_grafo{
 
 	t_grafo_m *mat;
-	
+	t_grafo_l *lis;
 }grafo;
 
 int tipo_grafo(grafo *g);
@@ -27,4 +27,6 @@ void imprime_grafo(grafo *g,int trans);
 void add_aresta(grafo *g);
 void rm_aresta(grafo *g);
 void menor_aresta(grafo *g);
+void adjacentes(grafo *g);
+void menu(char *op,grafo *g);
 #endif

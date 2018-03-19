@@ -7,7 +7,7 @@ int main(){
 	int n_vertices;
 	int n_arestas;
 	
-	char t_grafo; // tipo do grafo: matriz ou lista
+	char t_grafo,op[3]; // tipo do grafo: matriz ou lista
 	char dir; // di
 
 	scanf("%c %c %d %d",&dir,&t_grafo,&n_vertices,&n_arestas);
@@ -18,14 +18,22 @@ int main(){
 
 	while(n_arestas > 0){
 		add_aresta(g);
-
 		n_arestas--;
+		imprime_grafo(g,false);
+		printf("\n");
 	}
+	getchar();
+	while(scanf("%s",op) != EOF){
+		op[2] = '\0';
+		//printf("operacao %s\n", op);
+
+		getchar();
+		
+		menu(op,g);
 	
-	imprime_grafo(g,false);	
-	rm_aresta(g);
-	printf("\n");
-	imprime_grafo(g,false);	
-	menor_aresta(g);
+	}
+
+	
+	
 }
 
