@@ -9,7 +9,7 @@ t_grafo_m * cria_grafo_m(int n_vertices,int n_arestas,char dir){
 	mat->n_arestas = n_arestas;
 
 	if(dir == 'D'){
-		mat->dir = true;	
+		mat->dir = true;	 
 	}else{
 		mat->dir = false;
 	}
@@ -20,29 +20,53 @@ t_grafo_m * cria_grafo_m(int n_vertices,int n_arestas,char dir){
 	}
 
 	for (int i = 0; i < n_vertices; ++i){
-		for (int j = 0; j < n_vertices; j++){
-			mat->no[i][j] = -1;
+		for (int j = 0; j < n_vertices; j++){	//setando para null
+			mat->no[i][j] = false;
 		}
 	}
 
 
 	return mat;
 }
-void imprime_matriz(t_grafo_m *mat){
+void imprime_matriz(t_grafo_m *mat, int trans){  // imprime a matriz transposta se trans == true
 
-	for (int i = 0; i < mat->n_vertices; ++i){
-		for (int j = 0; j < mat->n_vertices; j++){
-			if(mat->no[i][j] < 0){
-				printf(". ");
-			}else{
-				printf("%d ", mat->no[i][j]);
+	if(trans == false){
+		for (int i = 0; i < mat->n_vertices; ++i){
+			for (int j = 0; j < mat->n_vertices; j++){
+				if(mat->no[i][j] < 0){
+					printf(". ");
+				}else{
+					printf("%d ", mat->no[i][j]);
+				}
 			}
+			printf("\n");
 		}
-		printf("\n");
+	}else{
+		for (int i = 0; i < mat->n_vertices; ++i){
+			for (int j = 0; j < mat->n_vertices; j++){
+				if(mat->no[j][i] < 0){
+					printf(". ");
+				}else{
+					printf("%d ", mat->no[j][i]);
+				}
+			}
+			printf("\n");
+		}
 	}
+	
 
 }
-void infos_m(t_grafo_m *mat){
+
+void add_aresta_m(t_grafo_m *mat, int v1 , int v2, int peso){ // função que adiciona uma aresta
+	mat->no[v1][v2] = peso;
+
+	if(mat->dir == false){ // se o grafo não for dígrafo precisamos colocar no outro nó
+		mat->no[v2][v1] = peso;
+	}
+}
+
+
+void infos_m(t_grafo_m *mat){ // função de debug
 
 	printf("!---------------------!\n");
 	printf("Grafo\n");
@@ -52,113 +76,60 @@ void infos_m(t_grafo_m *mat){
 	printf("!---------------------!\n");
 
 }
-
-/*
-
-
-t_grafo_m * cria_grafo_m(int n_vertices,char dir){
-
-	t_grafo_m *g = (t_grafo_m*)malloc(sizeof(t_grafo_m));
-
-	g->n_vertices = n_vertices;
-	g->dir = dir;
-
-	g->mat = (t_no**) malloc(sizeof(t_no*)*n_vertices);
-
-	for (int i = 0; i < n_vertices; ++i){
-		g->mat[i] = (t_no*) malloc(sizeof(t_no)*n_vertices);
-	}
-	for (int i = 0; i < n_vertices; ++i){
-		for (int j = 0; j < n_vertices; j++){
-			g->mat[i][j].peso = INT_MAX;
-		}
-	}
-
-	
-
-	return g;
-
-}
-
-void exibe_matriz(t_grafo_m* g,int n_vertices,int transposta){
-
-	if(transposta == 0){
-		for (int i = 0; i < n_vertices; ++i){
-			for (int j = 0; j < n_vertices; j++){
-				if(g->mat[j][i].peso == INT_MAX){
-					printf(". ");
-				}else{
-					printf("%d ", g->mat[j][i].peso);	
-				}
-			}
-			printf("\n");
-		}
-	}else{
-		for (int i = 0; i < n_vertices; ++i){
-			for (int j = 0; j < n_vertices; j++){
-				if(g->mat[j][i].peso == INT_MAX){
-					printf(". ");
-				}else{
-					printf("%d ", g->mat[j][i].peso);	
-				}
-			}
-			printf("\n");
-		}
-	}
-	
-
-}
-
-void v_adjacentes(t_grafo_m* g,int id_vertice, int n_vertices){
-
-
-	for (int i = 0; i < n_vertices; ++i){
-		if(g->mat[id_vertice][i].peso == 1){
+void adjacentes_m(t_grafo_m *mat, int id){ // imprime os nós adjacentes do nó "ID"
+	for (int i = 0; i < mat->n_vertices; ++i){ // toda linha representa um nó
+		
+		if(mat->no[id][i] != false){ // CUIDADO, no == true implica em no == 1, podem existir pesos diferentes;
 			printf("%d ", i);
 		}
 	}
 	printf("\n");
-
 }
 
-void le_coordenada(t_coordenada *aux){
-	scanf("%d %d %d",&(aux->v1),&(aux->v2),&(aux->peso));
-}
+void rm_aresta_m(t_grafo_m *mat, int v1 , int v2){
 
-void remove_aresta(t_grafo_m* g,t_coordenada *aux){
+	mat->no[v1][v2] = false;
 
-	g->mat[aux->v1][aux->v2].peso = INT_MAX;
-
-	if(g->dir == 'G'){		
-		g->mat[aux->v2][aux->v1].peso = INT_MAX;	
+	if(mat->dir == false){ // se o grafo não for dígrafo precisamos colocar no outro nó
+		mat->no[v2][v1] = false;
 	}
-		
+
 }
 
-void adiciona_aresta(t_grafo_m* g,t_coordenada *aux){
-	if(g->dir == 'G'){
-		g->mat[aux->v1][aux->v2].peso = aux->peso;	
-		g->mat[aux->v2][aux->v1].peso = aux->peso;	
-	}else{
-		g->mat[aux->v1][aux->v2].peso = aux->peso;	
-	}
+void menor_aresta_m(t_grafo_m *mat){
+	int v1,v2; // coordenadas do menor nó
+
+	v1 = v2 = -1; // setados para invalidos
+
+
 	
-}
-void aresta_menor(t_grafo_m* g,int n_vertices){
 
-	int menor=0,ind=0,ind2=0;
-
-	for (int i = 0; i < n_vertices; ++i){
-			for (int j = 0; j < n_vertices; j++){
-				if(g->mat[i][j].peso != INT_MAX && g->mat[i][j].peso < menor){
-					ind = i;
-					ind2 = j;
-					menor = g->mat[i][j].peso;	
-				}
-			}	
+	for (int i = 0; i < mat->n_vertices; i++){   // acha o primeiro nó valido
+		for (int j = 0; j < mat->n_vertices; j++){
+			if(mat->no[i][j] != false){
+				v1 = i;
+				v2 = j;
+				break;
+			}
+		}
+		if(v1 != false){
+			break;
+		}
 	}
 
-	printf("%d %d\n",ind,ind2 );
+
+	for (int i = 0; i < mat->n_vertices; i++){
+
+		for (int j = 0; j < mat->n_vertices; j++){
+
+			if(mat->no[i][j] != false && mat->no[v1][v2] > mat->no[i][j]){ // CUIDADO COM == TRUE, arestas podem ter pesos
+				v1 = i;
+				v2 = j;
+			}
+		}
+	}
+
+
+	printf("%d %d\n", v1,v2);
 
 }
-*/

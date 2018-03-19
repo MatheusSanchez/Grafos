@@ -1,17 +1,16 @@
 #ifndef B_PADRAO
+#define B_PADRAO
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#define true 1;
-#define false -1;
+#define true 1
+#define false -1
 
 #endif
 
 #ifndef GRAFOS_L
 #define GRAFOS_L
-
-#include <stdlib.h>
 
 typedef struct no_l t_no_l;
 

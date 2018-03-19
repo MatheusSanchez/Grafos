@@ -14,15 +14,18 @@ int main(){
 
 	grafo *g = cria_grafo(n_vertices,n_arestas,dir,t_grafo);
 	infos(g);
-	imprime_grafo(g);
+	
 
-	while(n_vertices > 0){
-		le_aresta();
-		n_vertices--;
+	while(n_arestas > 0){
+		add_aresta(g);
+
+		n_arestas--;
 	}
 	
-		
-
-
+	imprime_grafo(g,false);	
+	rm_aresta(g);
+	printf("\n");
+	imprime_grafo(g,false);	
+	menor_aresta(g);
 }
 

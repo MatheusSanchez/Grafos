@@ -1,14 +1,13 @@
 #include "grafos.h"
 
 
-void le_aresta(){
+void le_aresta(aresta *aux){
 
-	aresta aux;
-	scanf("%d %d %d",&aux.v1,&aux.v2,&aux.peso);
+
+	scanf("%d %d %d",&(aux->v1),&(aux->v2),&(aux->peso));
 	
-
-	printf("Aresta\n");
-	printf("V1 %d V2 %d Peso %d\n",aux.v1,aux.v2,aux.peso);
+	printf("Adicionando aresta Aresta\n");
+	printf("V1 %d V2 %d Peso %d\n",aux->v1,aux->v2,aux->peso);
 }
 
 
@@ -31,6 +30,30 @@ void infos(grafo *g){
 
 }
 
+
+void imprime_grafo(grafo *g, int trans){ // imprime o grafo transposto se trans == true
+	// se o tipo do grafo for matriz imprima matriz se não imprima lista
+	tipo_grafo(g) ? imprime_matriz(g->mat,trans):printf("IMPRIME LISTA\n");  
+
+}
+
+void add_aresta(grafo *g){ 
+	aresta aux;
+	le_aresta(&aux);
+
+	tipo_grafo(g) ? add_aresta_m(g->mat,aux.v1,aux.v2,aux.peso) : printf("Colocando Aresta na lista\n");
+		
+
+}
+
+void rm_aresta(grafo *g){ 
+
+	aresta aux;
+	scanf("%d %d",&aux.v1,&aux.v2);
+
+	tipo_grafo(g) ? rm_aresta_m(g->mat,aux.v1,aux.v2) : printf("Colocando Aresta na lista\n");
+}
+
 int tipo_grafo(grafo *g){ // retorna true caso o tipo do grafo seja matriz
 	if(g->mat != NULL){
 		return true;
@@ -38,9 +61,11 @@ int tipo_grafo(grafo *g){ // retorna true caso o tipo do grafo seja matriz
 		return false;
 	}
 }
+void adjacentes(grafo *g, int id){
 
-void imprime_grafo(grafo *g){
-	// se o tipo do grafo for matriz imprima matriz se não imprima lista
-	tipo_grafo(g) ? imprime_matriz(g->mat):printf("IMPRIME LISTA\n");  
+	tipo_grafo(g) ? adjacentes_m(g->mat,id):printf("LISTA\n");  
+}
 
+void menor_aresta(grafo *g){
+	tipo_grafo(g) ? menor_aresta_m(g->mat):printf("LISTA\n");  
 }

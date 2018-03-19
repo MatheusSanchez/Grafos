@@ -23,6 +23,8 @@ int tipo_grafo(grafo *g);
 void le_aresta();
 grafo* cria_grafo(int n_vertices, int n_arestas, char dir, char t_grafo);
 void infos(grafo *g);
-void imprime_grafo(grafo *g);
-
+void imprime_grafo(grafo *g,int trans);
+void add_aresta(grafo *g);
+void rm_aresta(grafo *g);
+void menor_aresta(grafo *g);
 #endif
