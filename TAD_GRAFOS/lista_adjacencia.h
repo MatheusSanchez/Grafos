@@ -37,4 +37,5 @@ void add_aresta_l(t_grafo_l *list, int v1 , int v2, int peso);
 void imprime_lista(t_grafo_l *lis, int trans);
 void rm_aresta_l(t_grafo_l *lis, int v1 , int v2);
 void menor_aresta_l(t_grafo_l *lis);
+void adjacentes_l(t_grafo_l *lis, int id);
 #endif 
