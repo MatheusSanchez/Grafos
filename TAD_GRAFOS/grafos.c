@@ -16,10 +16,8 @@ void menu(char *op,grafo *g){
 	}else if(strcmp(op,"RA") == 0){
 		rm_aresta(g);
 	}else if(strcmp(op,"IT") == 0){
-
 		imprime_grafo(g,true);
 	}else if(strcmp(op,"MP") == 0){
-
 		menor_aresta(g);
 	}
 
@@ -79,8 +77,8 @@ void rm_aresta(grafo *g){
 
 	aresta aux;
 	scanf("%d %d",&aux.v1,&aux.v2);
-
-	tipo_grafo(g) == matriz ? rm_aresta_m(g->mat,aux.v1,aux.v2) : printf("Colocando Aresta na lista\n");
+//	printf("%d %d\n",aux.v1 ,aux.v2);
+	tipo_grafo(g) == matriz ? rm_aresta_m(g->mat,aux.v1,aux.v2) : rm_aresta_l(g->lis,aux.v1,aux.v2);
 }
 
 int tipo_grafo(grafo *g){ // retorna true caso o tipo do grafo seja matriz
@@ -93,9 +91,9 @@ int tipo_grafo(grafo *g){ // retorna true caso o tipo do grafo seja matriz
 void adjacentes(grafo *g){
 	int id;
 	scanf("%d",&id);
-	tipo_grafo(g) == matriz ? adjacentes_m(g->mat,id):printf("LISTA\n");  
+	tipo_grafo(g) == matriz ? adjacentes_m(g->mat,id):adjacentes_l(g->lis,id);  
 }
 
 void menor_aresta(grafo *g){
-	tipo_grafo(g) == matriz ? menor_aresta_m(g->mat):printf("LISTA\n");  
+	tipo_grafo(g) == matriz ? menor_aresta_m(g->mat):menor_aresta_l(g->lis);  
 }

@@ -20,7 +20,7 @@ t_grafo_l * cria_grafo_l(int n_vertices,int n_arestas,char dir){
 		
 		lis->no[i] = NULL;
 	}
-	printf("AE\n");
+
 	return lis;
 }
 
@@ -32,6 +32,56 @@ void infos_l(t_grafo_l *lis){ // função de debug
 	printf("Nº arestas: %d\n",lis->n_arestas);
 	printf("Direcionado: %d\n", lis->dir);
 	printf("!---------------------!\n");
+
+}
+void rm_aresta_l(t_grafo_l *lis, int v1 , int v2){// remoção considerando que o nó exite
+
+	printf("%d %d\n",v1,v2);
+
+	t_aresta *aux ,*ant;
+	aux = lis->no[v1];
+	ant = lis->no[v1];
+
+	if(lis->no[v1]->v2 == v2){ // removendo o primeiro
+		lis->no[v1] = lis->no[v1]->prox;
+	}else{
+		aux = aux->prox;
+		while(aux != NULL && aux->v2 != v2){ 
+			ant = aux;
+			aux = aux->prox;
+		}
+
+
+		ant->prox = aux->prox;
+		free(aux);
+	}
+	
+
+	if(lis->dir == false){
+
+		int s = v1;
+		v1 = v2; // trocando os indicesz
+		v2 = s;
+
+		aux = lis->no[v1];
+		ant = lis->no[v1];
+
+		if(lis->no[v1]->v2 == v2){ // removendo o primeiro
+			lis->no[v1] = lis->no[v1]->prox;
+		}else{
+			aux = aux->prox;
+			while(aux != NULL && aux->v2 != v2){ 
+				ant = aux;
+				aux = aux->prox;
+			}
+
+
+			ant->prox = aux->prox;
+			free(aux);
+		}
+
+	}
+
 
 }
 
@@ -93,8 +143,34 @@ void add_aresta_l(t_grafo_l *lis, int v1 , int v2, int peso){
 }
 
 void imprime_lista(t_grafo_l *lis, int trans){ // 
-	if(trans == true){
-		printf("Lista Transposta\n");
+	if(trans == true && lis->dir == true){
+		int mat[lis->n_vertices][lis->n_vertices];
+		t_aresta *aux;
+
+		for (int i = 0; i <  lis->n_vertices; ++i){
+			for (int j = 0; j <  lis->n_vertices; ++j){
+				mat[i][j] = false;
+			}
+		}
+
+		for (int i = 0; i < lis->n_vertices; ++i){
+			aux = lis->no[i];
+			while(aux != NULL){
+				mat[aux->v2][i] = aux->peso;
+				aux = aux->prox;
+			}
+		}
+		for (int i = 0; i <  lis->n_vertices; ++i){
+			printf("%d. ", i);
+			for (int j = 0; j <  lis->n_vertices; ++j){
+				if(mat[i][j] != false){
+					printf("%d(%d) ", j,mat[i][j]);
+				}
+				
+			}
+			printf("\n");
+		}
+
 	}else{
 		for (int i = 0; i < lis->n_vertices; ++i){
 			t_aresta *aux;
@@ -112,174 +188,40 @@ void imprime_lista(t_grafo_l *lis, int trans){ //
 	}
 }
 
+void menor_aresta_l(t_grafo_l *lis){
+	int menor = 0;
 
-/*
-t_grafo_l* cria_grafo_l(int n_vertices,char dir){
+	t_aresta *aux,*aux_m;
 
-	t_grafo_l *g = (t_grafo_l*)malloc(sizeof(t_grafo_l));
+	aux = lis->no[0];
+	aux_m = lis->no[0];
 
-	g->n_vertices = n_vertices;
-	g->dir = dir;
-
-	g->lista = (t_no_l*) malloc(sizeof(t_no_l)*n_vertices);
-
-	for (int i = 0; i < n_vertices; ++i){
-		g->lista[i].aresta = NULL;
-	}
-
-	return g;
-
-}
-
-void adiciona_aresta_l(t_grafo_l* g,t_coordenada_l *aux){
-
-	t_aresta *nova_aresta = malloc(sizeof(t_aresta));
-	nova_aresta->next = NULL;
-	nova_aresta->peso = aux->peso;
-	nova_aresta->id = aux->v2;
-
-	t_aresta *aresta_aux = g->lista[aux->v1].aresta;
-	
-	if(aresta_aux == NULL){
-		g->lista[aux->v1].aresta = nova_aresta;
-	}else{
-
-		while(aresta_aux->next != NULL && aresta_aux->next->id < nova_aresta->id){
-			aresta_aux = aresta_aux->next;
-		}
-		nova_aresta->next = aresta_aux->next;
-		aresta_aux->next = nova_aresta;
-
-	}
-	
-	if(g->dir == 'D'){
-
-		t_aresta *nova_aresta = malloc(sizeof(t_aresta));
-		nova_aresta->next = NULL;
-		nova_aresta->peso = aux->peso;
-		nova_aresta->id = aux->v1;
-
-		t_aresta *aresta_aux = g->lista[aux->v2].aresta;
-		
-		if(aresta_aux == NULL){
-			g->lista[aux->v2].aresta = nova_aresta;
-		}else{
-
-			while(aresta_aux->next != NULL && aresta_aux->next->id < nova_aresta->id){
-				aresta_aux = aresta_aux->next;
+	for (int i = 0; i < lis->n_vertices; ++i){
+		aux = lis->no[i];
+		while(aux != NULL){
+			if(aux_m->peso == 0){ // desconsiderando pesos em arestas negativas
+				break;
 			}
-			nova_aresta->next = aresta_aux->next;
-			aresta_aux->next = nova_aresta;
-
+			if(aux_m->peso > aux->peso){
+				aux_m = aux;
+				menor = i;
+			}
+			aux = aux->prox;
 		}
-
 	}
 
 
-
-}
-void remove_aresta_l(t_grafo_l* g,t_coordenada_l *aux){
-
-	t_aresta *aresta = g->lista[aux->v1].aresta;
-	t_aresta *aresta_aux;
-	if(aresta->id == aux->v2){
-		g->lista[aux->v1].aresta = aresta->next;
-		free(aresta);
-	}else{
-
-		while(aresta->next->id != aux->v2){
-			aresta = aresta->next;
-		}
-
-		aresta_aux = aresta->next;
-		aresta->next = aresta->next->next;
-
-		free(aresta_aux);
-	}
-
+	printf("%d %d\n",menor,aux_m->v2);
 
 }
 
-void le_coordenada_l(t_coordenada_l *aux){
-	scanf("%d %d %d",&(aux->v1),&(aux->v2),&(aux->peso));
-}
-void exibe_grafo_l(t_grafo_l* g,int n_vertices,int transposta){
+void adjacentes_l(t_grafo_l *lis, int id){
 	t_aresta *aux;
-	if(transposta == 0){
-		for (int i = 0; i < n_vertices; ++i){
-			aux = g->lista[i].aresta;
 
-			printf("%d.", i);
+	aux = lis->no[id];
 
-			while(aux != NULL){
-				printf(" %d(%d)", aux->id,aux->peso);
-				aux = aux->next;
-			}
-			printf("\n");
-		}
-	}else{
-		int **matriz = malloc(sizeof(int*)*g->n_vertices);
-
-		for (int i = 0; i < n_vertices; ++i){
-			matriz[i] = calloc(g->n_vertices,sizeof(int));
-		}
-
-		for (int i = 0; i < n_vertices; ++i){
-			aux = g->lista[i].aresta;
-
-			while(aux != NULL){
-				matriz[i][aux->id] = aux->peso;
-				aux = aux->next;
-			}
-		}
-
-
-		for (int i = 0; i < n_vertices; ++i){
-			printf("%d.", i);
-			for (int j = 0; j < n_vertices; j++){
-				if(matriz[i][j] > 0){
-					printf(" %d(%d)", j,matriz[i][j]);	
-				}		
-			}
-			printf("\n");
-		}
+	while(aux != NULL){
+		printf("%d ", aux->v2);
+		aux = aux->prox;
 	}
-
-
 }
-
-void aresta_menor_l(t_grafo_l* g,int n_vertices){
-
-	int **matriz = malloc(sizeof(int*)*g->n_vertices);
-	t_aresta *aux;
-	int menor,ind,ind2;
-
-		for (int i = 0; i < n_vertices; ++i){
-			matriz[i] = calloc(g->n_vertices,sizeof(int));
-		}
-
-		for (int i = 0; i < n_vertices; ++i){
-			aux = g->lista[i].aresta;
-
-			while(aux != NULL){
-				menor = aux->peso;
-				ind = i;
-				ind2 = aux->id;
-				matriz[i][aux->id] = aux->peso;
-				aux = aux->next;
-			}
-		}
-
-		for (int i = 0; i < n_vertices; ++i){
-			for (int j = 0; j < n_vertices; j++){
-				if(matriz[i][j] != 0 && matriz[i][j] < menor){
-					ind = i;
-					ind2 = j;
-					menor = matriz[i][j];	
-				}
-			}	
-		}
-		
-		printf("%d %d\n",ind,ind2);
-}
-*/
