@@ -12,9 +12,9 @@
 #define GRAFOS_M
 
 
-typedef struct grafo{
+typedef struct grafo_m{ // grado do tipo matriz, contém uma matriz e informações gerais do grafo
 
-	int **no;
+	int **no; // matriz;
 
 	int n_vertices;
 	int n_arestas;

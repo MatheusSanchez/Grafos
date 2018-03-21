@@ -29,4 +29,5 @@ void rm_aresta(grafo *g);
 void menor_aresta(grafo *g);
 void adjacentes(grafo *g);
 void menu(char *op,grafo *g);
+
 #endif

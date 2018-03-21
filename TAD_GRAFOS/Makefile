@@ -1,7 +1,7 @@
 # Compilador gcc
 CP = gcc
 # Parâmetros de compilação
-P_CO = -c -lm -Wall -g3
+P_CO = -c -lm -Wall -g3 -std=gnu99
 
 main: matriz.o lista_adjacencia.o grafos.o main.o 
 	$(CP) grafos.o matriz.o lista_adjacencia.o main.o -o main -lm
@@ -22,7 +22,7 @@ main.o: main.c grafos.o
 	$(CP) $(P_CO) main.c
 
 run: main
-	./main < entrada.txt
+	./main 
 
 clean: 
 	rm -rf *o main

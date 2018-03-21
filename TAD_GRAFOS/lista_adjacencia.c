@@ -34,9 +34,8 @@ void infos_l(t_grafo_l *lis){ // função de debug
 	printf("!---------------------!\n");
 
 }
-void rm_aresta_l(t_grafo_l *lis, int v1 , int v2){// remoção considerando que o nó exite
+void rm_aresta_l(t_grafo_l *lis, int v1 , int v2){// remoção de aresta
 
-	printf("%d %d\n",v1,v2);
 
 	t_aresta *aux ,*ant;
 	aux = lis->no[v1];
@@ -46,21 +45,25 @@ void rm_aresta_l(t_grafo_l *lis, int v1 , int v2){// remoção considerando que 
 		lis->no[v1] = lis->no[v1]->prox;
 	}else{
 		aux = aux->prox;
-		while(aux != NULL && aux->v2 != v2){ 
-			ant = aux;
-			aux = aux->prox;
+		while(aux != NULL && aux->v2 != v2 && aux->v2 < v2){  // aux->v2 > v2
+			ant = aux;										// os nós são inseridos ordenados
+			aux = aux->prox;								// logo podemos parar de processar se o nó tem valor maior
 		}
 
-
-		ant->prox = aux->prox;
-		free(aux);
+		if(aux != NULL && aux->v2 == v2){
+			ant->prox = aux->prox;
+			free(aux);
+		
+		}
+		
+		
 	}
 	
 
 	if(lis->dir == false){
 
 		int s = v1;
-		v1 = v2; // trocando os indicesz
+		v1 = v2; // trocando os indices
 		v2 = s;
 
 		aux = lis->no[v1];
@@ -70,14 +73,16 @@ void rm_aresta_l(t_grafo_l *lis, int v1 , int v2){// remoção considerando que 
 			lis->no[v1] = lis->no[v1]->prox;
 		}else{
 			aux = aux->prox;
-			while(aux != NULL && aux->v2 != v2){ 
-				ant = aux;
-				aux = aux->prox;
+			while(aux != NULL && aux->v2 != v2 && aux->v2 < v2){ // aux->v2 > v2
+				ant = aux;										 	
+				aux = aux->prox;								
 			}
-
-
-			ant->prox = aux->prox;
-			free(aux);
+		
+			if(aux != NULL && aux->v2 == v2){
+				ant->prox = aux->prox;
+				free(aux);
+			}
+			
 		}
 
 	}
@@ -100,14 +105,26 @@ void add_aresta_l(t_grafo_l *lis, int v1 , int v2, int peso){
 		lis->no[v1] = novo;
 		lis->no[v1]->prox = aux;
 
+	}else if(aux->v2 == v2){ // erro conceitual 1
+
+		lis->no[v1]->peso = novo->peso;
+		free(novo);
+
 	}else{
 
 		while(aux->prox != NULL && aux->prox->v2 < v2){ // inserção em lista ordenada
 			aux = aux->prox;
 		}
-
-		novo->prox = aux->prox;
-		aux->prox = novo;
+		if(aux->prox != NULL && aux->prox->v2 == v2){		// erro conceitual, um nó pode ter duas arestas para o mesmo nó com pesos diferentes;
+															// entretando há casos no run codes;
+			aux->prox->peso = novo->peso;
+			free(novo);
+		}else{
+			novo->prox = aux->prox;
+			aux->prox = novo;	
+		}
+	
+		
 	}
 
 	if(lis->dir == false && v1 != v2){ // fazendo as arestas da volta para o caso de grafo não direcionado
@@ -128,14 +145,24 @@ void add_aresta_l(t_grafo_l *lis, int v1 , int v2, int peso){
 			lis->no[v1] = novo;
 			lis->no[v1]->prox = aux;
 
+		}else if(aux->v2 == v2){ //  erro conceitual, um nó pode ter duas arestas para o mesmo nó com pesos diferentes;
+								// mas existem casos no run codes assim;
+			lis->no[v1]->peso = novo->peso;
+			free(novo);
+
 		}else{
 
 			while(aux->prox != NULL && aux->prox->v2 < v2){ // inserção em lista ordenada
 				aux = aux->prox;
 			}
-
-			novo->prox = aux->prox;
-			aux->prox = novo;
+			if(aux->prox != NULL && aux->prox->v2 == v2){		// erro conceitual
+															
+				aux->prox->peso = novo->peso;
+				free(novo);
+			}else{
+				novo->prox = aux->prox;
+				aux->prox = novo;	
+			}
 		}
 			
 	}
@@ -143,24 +170,25 @@ void add_aresta_l(t_grafo_l *lis, int v1 , int v2, int peso){
 }
 
 void imprime_lista(t_grafo_l *lis, int trans){ // 
-	if(trans == true && lis->dir == true){
-		int mat[lis->n_vertices][lis->n_vertices];
+	if(trans == true && lis->dir == true){ // grafo transposto
+		
+		int mat[lis->n_vertices][lis->n_vertices]; // vamos passar par auma matriz para facilitar
 		t_aresta *aux;
 
 		for (int i = 0; i <  lis->n_vertices; ++i){
-			for (int j = 0; j <  lis->n_vertices; ++j){
+			for (int j = 0; j <  lis->n_vertices; ++j){ // pré setando os valores
 				mat[i][j] = false;
 			}
 		}
 
 		for (int i = 0; i < lis->n_vertices; ++i){
 			aux = lis->no[i];
-			while(aux != NULL){
+			while(aux != NULL){ // passando para matriz
 				mat[aux->v2][i] = aux->peso;
 				aux = aux->prox;
 			}
 		}
-		for (int i = 0; i <  lis->n_vertices; ++i){
+		for (int i = 0; i <  lis->n_vertices; ++i){ // imprimindo a trasposta
 			printf("%d. ", i);
 			for (int j = 0; j <  lis->n_vertices; ++j){
 				if(mat[i][j] != false){
@@ -171,8 +199,8 @@ void imprime_lista(t_grafo_l *lis, int trans){ //
 			printf("\n");
 		}
 
-	}else{
-		for (int i = 0; i < lis->n_vertices; ++i){
+	}else if(trans == false){
+		for (int i = 0; i < lis->n_vertices; ++i){ // imprimindo grafo normal
 			t_aresta *aux;
 			aux = lis->no[i];
 
@@ -188,7 +216,7 @@ void imprime_lista(t_grafo_l *lis, int trans){ //
 	}
 }
 
-void menor_aresta_l(t_grafo_l *lis){
+void menor_aresta_l(t_grafo_l *lis){ // achando a menor aresta
 	int menor = 0;
 
 	t_aresta *aux,*aux_m;
@@ -199,7 +227,7 @@ void menor_aresta_l(t_grafo_l *lis){
 	for (int i = 0; i < lis->n_vertices; ++i){
 		aux = lis->no[i];
 		while(aux != NULL){
-			if(aux_m->peso == 0){ // desconsiderando pesos em arestas negativas
+			if(aux_m->peso == 0){ // desconsiderando pesos negativos se o peso for == 0 podemos parar o processamento
 				break;
 			}
 			if(aux_m->peso > aux->peso){
@@ -215,7 +243,7 @@ void menor_aresta_l(t_grafo_l *lis){
 
 }
 
-void adjacentes_l(t_grafo_l *lis, int id){
+void adjacentes_l(t_grafo_l *lis, int id){ // imprimindo os nós adjacentrs
 	t_aresta *aux;
 
 	aux = lis->no[id];
@@ -224,4 +252,5 @@ void adjacentes_l(t_grafo_l *lis, int id){
 		printf("%d ", aux->v2);
 		aux = aux->prox;
 	}
+	printf("\n");
 }

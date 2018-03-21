@@ -13,7 +13,7 @@
 #define GRAFOS_L
 
 
-typedef struct aresta{
+typedef struct aresta{ // lista de arestar de um vértice
 
 	int peso;
 	int v2;
@@ -21,7 +21,7 @@ typedef struct aresta{
 
 }t_aresta;
 
-typedef struct grafo_l{
+typedef struct grafo_l{ // grafo do tipo lista, contém n listas + informações gerais do grafo
 
 	t_aresta **no;
 
@@ -38,4 +38,6 @@ void imprime_lista(t_grafo_l *lis, int trans);
 void rm_aresta_l(t_grafo_l *lis, int v1 , int v2);
 void menor_aresta_l(t_grafo_l *lis);
 void adjacentes_l(t_grafo_l *lis, int id);
+
+
 #endif 

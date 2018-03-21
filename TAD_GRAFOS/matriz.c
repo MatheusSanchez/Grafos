@@ -1,18 +1,9 @@
 #include "matriz.h"
 
-t_grafo_m * cria_grafo_m(int n_vertices,int n_arestas,char dir){
+t_grafo_m * cria_grafo_m(int n_vertices,int n_arestas,char dir){ // criando um grafo do tipo matriz
 
 	t_grafo_m *mat = (t_grafo_m*)malloc(sizeof(t_grafo_m)); // alocando a estrutura grafo_m
 	mat->no = (int**) malloc(sizeof(int*)*n_vertices);		// alocando a matriz
-
-	mat->n_vertices = n_vertices;
-	mat->n_arestas = n_arestas;
-
-	if(dir == 'D'){
-		mat->dir = true;	 
-	}else{
-		mat->dir = false;
-	}
 
 
 	for (int i = 0; i < n_vertices; ++i){
@@ -20,9 +11,18 @@ t_grafo_m * cria_grafo_m(int n_vertices,int n_arestas,char dir){
 	}
 
 	for (int i = 0; i < n_vertices; ++i){
-		for (int j = 0; j < n_vertices; j++){	//setando para null
-			mat->no[i][j] = false;
+		for (int j = 0; j < n_vertices; j++){	//setando para -1 os nós
+			mat->no[i][j] = false;  
 		}
+	}
+
+	mat->n_vertices = n_vertices; // setando informações gerais recebidas por parâmetro
+	mat->n_arestas = n_arestas;
+
+	if(dir == 'D'){
+		mat->dir = true;	 // grafo direcionado == true
+	}else{
+		mat->dir = false; // grafo direcionado == false
 	}
 
 
@@ -30,7 +30,8 @@ t_grafo_m * cria_grafo_m(int n_vertices,int n_arestas,char dir){
 }
 void imprime_matriz(t_grafo_m *mat, int trans){  // imprime a matriz transposta se trans == true
 
-	if(trans == false){
+	if(trans == false){ // imprimir grafo não transposto
+
 		for (int i = 0; i < mat->n_vertices; ++i){
 			for (int j = 0; j < mat->n_vertices; j++){
 				if(mat->no[i][j] < 0){
@@ -41,7 +42,9 @@ void imprime_matriz(t_grafo_m *mat, int trans){  // imprime a matriz transposta 
 			}
 			printf("\n");
 		}
-	}else{
+
+	}else if(mat->dir == true){ // só imprimimos o grafo transposto se ele for direcionado;
+
 		for (int i = 0; i < mat->n_vertices; ++i){
 			for (int j = 0; j < mat->n_vertices; j++){
 				if(mat->no[j][i] < 0){
@@ -52,6 +55,7 @@ void imprime_matriz(t_grafo_m *mat, int trans){  // imprime a matriz transposta 
 			}
 			printf("\n");
 		}
+
 	}
 	
 
@@ -66,7 +70,7 @@ void add_aresta_m(t_grafo_m *mat, int v1 , int v2, int peso){ // função que ad
 }
 
 
-void infos_m(t_grafo_m *mat){ // função de debug
+void infos_m(t_grafo_m *mat){ // função de debug // mostra informações gerais do grafo;
 	
 	printf("!---------------------!\n");
 	printf("Grafo\n");
@@ -86,7 +90,7 @@ void adjacentes_m(t_grafo_m *mat, int id){ // imprime os nós adjacentes do nó 
 	printf("\n");
 }
 
-void rm_aresta_m(t_grafo_m *mat, int v1 , int v2){
+void rm_aresta_m(t_grafo_m *mat, int v1 , int v2){ //remove uma aresta
 
 	mat->no[v1][v2] = false;
 
