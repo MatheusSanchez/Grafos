@@ -30,5 +30,7 @@ void add_aresta_m(t_grafo_m *mat, int v1 , int v2, int peso);
 void adjacentes_m(t_grafo_m *mat, int id);
 void rm_aresta_m(t_grafo_m *mat, int v1 , int v2);
 void menor_aresta_m(t_grafo_m *mat);
+void busca_profundidade_m(t_grafo_m *mat);
+void busca_largura_m(t_grafo_m *mat);
 
 #endif

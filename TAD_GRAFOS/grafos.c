@@ -18,14 +18,17 @@ void menu(char *op,grafo *g){ // seleciona a operação e chama a função respe
 		imprime_grafo(g,true);
 	}else if(strcmp(op,"MP") == 0){
 		menor_aresta(g);
+	}else if(strcmp(op,"BU") == 0){
+		busca(g);
 	}
 
 
 }
 void le_aresta(aresta *aux){ // função auxiliar que realiza a leitura de uma aresta
 
-	scanf("%d %d %d",&(aux->v1),&(aux->v2),&(aux->peso));
-	
+	//scanf("%d %d %d",&(aux->v1),&(aux->v2),&(aux->peso)); // leitura geral
+	scanf("%d %d",&(aux->v1),&(aux->v2));	// leitura ex 2, sem peso	
+	(aux->peso) = 1;
 }
 
 
@@ -45,12 +48,20 @@ grafo* cria_grafo(int n_vertices, int n_arestas, char dir, char t_grafo){ // fun
 	}
 	return g;
 }
+void busca(grafo *g){ 
+	aresta aux;
+	le_aresta(&aux);
+	printf("PAR %d %d\n", aux.v1,aux.v2);
+	tipo_grafo(g) == matriz ? busca_profundidade_m(g->mat) : busca_profundidade_l(g->lis,aux.v1,aux.v2); 
+
+}
 
 void infos(grafo *g){ // informações do grafo atual
 
 	// se o tipo do grafo for matriz imprima infos matriz se não imprima infos lista
 	
 	tipo_grafo(g) == matriz ? infos_m(g->mat) : infos_l(g->lis); 
+	imprime_grafo(g,false);
 
 }
 

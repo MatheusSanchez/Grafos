@@ -1,5 +1,13 @@
 #include "matriz.h"
 
+void busca_profundidade_m(t_grafo_m *mat){
+	printf("A busca em profundidade no grafo tipo matriz ainda não foi desenvlvida :(\n");
+}
+
+void busca_largura_m(t_grafo_m *mat){
+	printf("A busca em largura no grafo tipo matriz ainda não foi desenvlvida :(\n");
+}
+
 t_grafo_m * cria_grafo_m(int n_vertices,int n_arestas,char dir){ // criando um grafo do tipo matriz
 
 	t_grafo_m *mat = (t_grafo_m*)malloc(sizeof(t_grafo_m)); // alocando a estrutura grafo_m

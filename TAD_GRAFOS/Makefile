@@ -29,3 +29,6 @@ clean:
 
 clean_all:	
 	rm -rf *o
+
+zip: 
+	zip trab main.c lista_adjacencia.c lista_adjacencia.h matriz.c matriz.h grafos.c grafos.h Makefile
