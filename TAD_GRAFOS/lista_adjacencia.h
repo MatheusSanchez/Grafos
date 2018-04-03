@@ -38,6 +38,8 @@ void imprime_lista(t_grafo_l *lis, int trans);
 void rm_aresta_l(t_grafo_l *lis, int v1 , int v2);
 void menor_aresta_l(t_grafo_l *lis);
 void adjacentes_l(t_grafo_l *lis, int id);
+void busca_largura_l(t_grafo_l *lis,int ori,int dest);
+void busca_l_l(int *pre, int ori, int fim);
 void busca_profundidade_l(t_grafo_l *lis,int ori,int dest);
-int busca_p_l(t_grafo_l *lis,int ini,int *visitados,int cont,int dest,int *resp);
+void busca_p_l(int *pre, int ori, int fim);
 #endif 

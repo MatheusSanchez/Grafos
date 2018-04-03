@@ -255,71 +255,96 @@ void adjacentes_l(t_grafo_l *lis, int id){ // imprimindo os nós adjacentrs
 	printf("\n");
 }
 
-void busca_profundidade_l(t_grafo_l *lis,int ori,int dest){
-	int visitados[lis->n_vertices];
-	int resp[lis->n_vertices];
+void busca_largura_l(t_grafo_l *lis,int ori,int dest){
+	
+	int cor[lis->n_vertices];
+	int dis[lis->n_vertices];
+	int prede[lis->n_vertices];
+	int fila[lis->n_vertices];
+	int i_fila = 0;
+	int f_fila = 0;
 
 	for (int i = 0; i < lis->n_vertices; ++i){
-		visitados[i] = -1;				//vertices nao visitados
-		resp[i] = -1;
+		cor[i] = 0; // não visitado
+		dis[i] = -1; // não calculada
+		prede[i] = -1; 
+		fila[i] = -1;
 	}
-	int cont = 0;
 
-	visitados[ori] = cont;
-	resp[cont] = ori;
+	cor[ori] = 1; // cinza
+	dis[ori] = 0;
+	prede[ori] = 0;
+	fila[0] = ori;
 
-	if(ori != dest){
-		busca_p_l(lis,ori,visitados,cont,dest,resp);
-	}else{
-		for (int i = 0; i < lis->n_vertices; ++i){
-			if(resp[i] != -1){
-				printf("%d ", resp[i]);
+	while(i_fila <= f_fila){
+
+		int k = fila[i_fila];
+		t_aresta *aux;
+		aux = lis->no[k];
+
+		while(aux != NULL){
+
+			if(cor[aux->v2] == 0){ // white
+				cor[aux->v2] = 1; //gray
+				dis[aux->v2] = dis[k] + 1;
+				prede[aux->v2] = k;
+				f_fila++;
+				fila[f_fila] = aux->v2;
 			}
+			aux = aux->prox;
 		}
-	}
-	
 
-	
+		i_fila++;
+		cor[k] = -1;
+
+	}
+
+	/*printf("Visitados\n");
+	for (int i = 0; i < lis->n_vertices; ++i){
+		printf("%d ", cor[i]);
+	}
 	printf("\n");
+
+	printf("Predecessores\n");
+	for (int i = 0; i < lis->n_vertices; ++i){
+		printf("%d ", prede[i]);
+	}
+	printf("\n");
+
+	printf("Fila\n");
+	for (int i = 0; i < lis->n_vertices; ++i){
+		printf("%d ", fila[i]);
+	}
+	printf("\n");
+
+	printf("Distancia\n");
+	for (int i = 0; i < lis->n_vertices; ++i){
+		printf("%d ", dis[i]);
+	}
+	printf("\n");*/
+
+	if(prede[dest] != -1){
+		busca_l_l(prede,ori,dest);
+		printf("\n");
+	}else{
+		printf("\n");
+	}
+}
+
+void busca_l_l(int *pre, int ori, int fim){
+		
+	if(fim == ori){
+		printf("%d ",ori);
+		return;
+	}else{
+		busca_l_l(pre,ori,pre[fim]);
+		printf("%d ",fim);
+	}	
+
 
 }
 
-int busca_p_l(t_grafo_l *lis,int ini,int *visitados,int cont,int dest,int *resp){
-
-	visitados[ini] = cont;
-	resp[cont] = ini;
-	t_aresta *aux = lis->no[ini];
-
-	while(aux != NULL){
-	
-		if(aux->v2 != dest){
-			if( visitados[aux->v2] == -1){
-				printf("%d %d\n", aux->v2,cont);
-				if(busca_p_l(lis,aux->v2,visitados,cont+1,dest,resp) == 1){
-					return 1;
-				}else{
-					printf("Retorno %d \n", aux->v2);
-					
-					//visitados[aux->v2] = -1;		
-				}
-				
-			}
-		}else{
-		
-			for (int i = 0; i < lis->n_vertices; ++i){
-				if(resp[i] != -1){
-					printf("%d ", resp[i]);
-				}
-			}
-			return 1;
-		}
-		aux = aux->prox;
-
-		
-	}
-	printf("no %d -1\n", ini);
-	resp[ini] = -1;
-	
-	return 0;
+void busca_profundidade_l(t_grafo_l *lis,int ori,int dest){
+	printf("Salve\n");
 
 }

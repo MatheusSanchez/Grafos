@@ -76,7 +76,6 @@ void imprime_grafo(grafo *g, int trans){ // imprime o grafo transposto se trans 
 void add_aresta(grafo *g){  // adiciona uma aresta ao grafo
 	aresta aux;
 	le_aresta(&aux); // leitura da aresta que vai ser adicionada
-
 	tipo_grafo(g) == matriz  ? add_aresta_m(g->mat,aux.v1,aux.v2,aux.peso) : add_aresta_l(g->lis,aux.v1,aux.v2,aux.peso);
 	
 }
