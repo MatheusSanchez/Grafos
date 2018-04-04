@@ -41,5 +41,5 @@ void adjacentes_l(t_grafo_l *lis, int id);
 void busca_largura_l(t_grafo_l *lis,int ori,int dest);
 void busca_l_l(int *pre, int ori, int fim);
 void busca_profundidade_l(t_grafo_l *lis,int ori,int dest);
-void busca_p_l(int *pre, int ori, int fim);
+void busca_p_l(t_grafo_l *lis,int *prede,int ori,int dest, int *cor,int *dis,int time);
 #endif 

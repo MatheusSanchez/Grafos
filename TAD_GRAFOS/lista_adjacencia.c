@@ -345,6 +345,49 @@ void busca_l_l(int *pre, int ori, int fim){
 }
 
 void busca_profundidade_l(t_grafo_l *lis,int ori,int dest){
-	printf("Salve\n");
+	int cor[lis->n_vertices];
+	int prede[lis->n_vertices];
+	int dis[lis->n_vertices];
+
+	for (int i = 0; i < lis->n_vertices; ++i){
+		cor[i] = 0; // não visitado
+		prede[i] = -1; 
+		dis[i] = -1;
+	}
+
+	cor[ori] = 1; // cinza
+	prede[ori] = 0;
+	
+	busca_p_l(lis,prede,ori,dest,cor,dis,0);
+	
+	for (int i = 0; i < lis->n_vertices; ++i){
+		printf("%d ", prede[i]);
+	}
+	printf("\n");
+
+}
+
+void busca_p_l(t_grafo_l *lis,int *prede,int ori,int dest, int *cor,int *dis,int time){
+	
+
+	t_aresta *aux;
+	aux = lis->no[ori];
+	cor[ori] = 1;
+	dis[ori] = time;
+	time++;
+
+	if(ori == dest){
+		return;
+	}
+
+	while(aux != NULL){
+		if(cor[aux->v2] == 0){
+			prede[aux->v2] = ori;
+			busca_p_l(lis,prede,aux->v2,dest,cor ,dis,time);
+		}
+		aux = aux->prox;
+	}
+	cor[ori] = -1;
+
 
 }
