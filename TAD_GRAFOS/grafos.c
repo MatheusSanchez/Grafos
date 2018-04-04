@@ -51,7 +51,7 @@ grafo* cria_grafo(int n_vertices, int n_arestas, char dir, char t_grafo){ // fun
 void busca(grafo *g){ 
 	aresta aux;
 	le_aresta(&aux);
-	printf("PAR %d %d\n", aux.v1,aux.v2);
+	//printf("PAR %d %d\n", aux.v1,aux.v2);
 	tipo_grafo(g) == matriz ? busca_profundidade_m(g->mat) : busca_profundidade_l(g->lis,aux.v1,aux.v2); 
 
 }

@@ -360,10 +360,17 @@ void busca_profundidade_l(t_grafo_l *lis,int ori,int dest){
 	
 	busca_p_l(lis,prede,ori,dest,cor,dis,0);
 	
-	for (int i = 0; i < lis->n_vertices; ++i){
+	/*for (int i = 0; i < lis->n_vertices; ++i){
 		printf("%d ", prede[i]);
 	}
 	printf("\n");
+	printf("Chama na funcao\n");*/
+	if(prede[dest] != -1){
+		busca_l_l(prede,ori,dest);
+		printf("\n");
+	}else{
+		printf("\n");
+	}
 
 }
 
