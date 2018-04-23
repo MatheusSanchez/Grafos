@@ -145,3 +145,7 @@ void menor_aresta_m(t_grafo_m *mat){
 	printf("%d %d\n", v1,v2);
 
 }
+
+void ordenacao_topologica_m (t_grafo_m *mat){
+	printf("Ordenacao topologica não foi implementada para grafos do tipo matriz !\n");
+}

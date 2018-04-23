@@ -398,3 +398,10 @@ void busca_p_l(t_grafo_l *lis,int *prede,int ori,int dest, int *cor,int *dis,int
 
 
 }
+
+void ordenacao_topologica_l(t_grafo_l *lis){
+
+	
+	
+	
+}

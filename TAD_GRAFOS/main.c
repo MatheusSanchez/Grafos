@@ -15,12 +15,21 @@ int main(){
 	scanf("%d %d",&n_vertices,&n_arestas);
 
 	dir = 'D'; // grafo direcionado
-	t_grafo = 'L'; // representação por matriz;
+	/*
+	t_grafo = 'L'; // representação por lista;
 	op[0] = 'B';
 	op[1] = 'U';
 	op[2] = '\0';
 	grafo *g = cria_grafo(n_vertices,n_arestas,dir,t_grafo); // criamos um grafo e passamos o tipo de estrutura que ele será representado
-	
+	*/
+
+	//ex 3
+	t_grafo = 'M'; // representação por matriz;
+	op[0] = 'T';
+	op[1] = 'O';
+	op[2] = '\0';
+	grafo *g = cria_grafo(n_vertices,n_arestas,dir,t_grafo);
+
 	//infos(g); // da informações gerais do grafo
 
 	// leitura padrão na função le_aresta alterada para fins do ex2;
@@ -28,6 +37,7 @@ int main(){
 		add_aresta(g);
 		n_arestas--;
 	}
+	infos(g);
 	//getchar();
 
 	//leitura geral de operações
@@ -41,7 +51,7 @@ int main(){
 		menu(op,g); 
 	
 	}*/
-	infos(g); 
+	
 	// leitura especifica do ex 2
 
 	while(getchar() != EOF){ // lendo e executando todas as operações

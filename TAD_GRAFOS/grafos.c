@@ -20,6 +20,8 @@ void menu(char *op,grafo *g){ // seleciona a operação e chama a função respe
 		menor_aresta(g);
 	}else if(strcmp(op,"BU") == 0){
 		busca(g);
+	}else if(strcmp(op,"TO") == 0){
+		ornacao_topologica(g);
 	}
 
 
@@ -54,6 +56,11 @@ void busca(grafo *g){
 	//printf("PAR %d %d\n", aux.v1,aux.v2);
 	tipo_grafo(g) == matriz ? busca_profundidade_m(g->mat) : busca_profundidade_l(g->lis,aux.v1,aux.v2); 
 
+}
+
+void ornacao_topologica(grafo *g){ 
+
+	tipo_grafo(g) == matriz ? ordenacao_topologica_m(g->mat) : ordenacao_topologica_l(g->lis,aux.v1,aux.v2); 
 }
 
 void infos(grafo *g){ // informações do grafo atual

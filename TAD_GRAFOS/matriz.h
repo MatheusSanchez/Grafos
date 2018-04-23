@@ -32,5 +32,6 @@ void rm_aresta_m(t_grafo_m *mat, int v1 , int v2);
 void menor_aresta_m(t_grafo_m *mat);
 void busca_profundidade_m(t_grafo_m *mat);
 void busca_largura_m(t_grafo_m *mat);
+void ordenacao_topologica_m (t_grafo_m *mat);
 
 #endif

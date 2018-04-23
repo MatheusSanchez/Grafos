@@ -31,4 +31,6 @@ void adjacentes(grafo *g);
 void menu(char *op,grafo *g);
 void busca(grafo *g);
 
+void ornacao_topologica(grafo *g);
+
 #endif
