@@ -24,7 +24,7 @@ int main(){
 	*/
 
 	//ex 3
-	t_grafo = 'M'; // representação por matriz;
+	t_grafo = 'L'; // representação por matriz;
 	op[0] = 'T';
 	op[1] = 'O';
 	op[2] = '\0';
@@ -37,7 +37,7 @@ int main(){
 		add_aresta(g);
 		n_arestas--;
 	}
-	infos(g);
+	//infos(g);
 	//getchar();
 
 	//leitura geral de operações
@@ -53,11 +53,12 @@ int main(){
 	}*/
 	
 	// leitura especifica do ex 2
-
+	menu(op,g); 
+	/*
 	while(getchar() != EOF){ // lendo e executando todas as operações
 		menu(op,g); 
 	
-	}
+	}*/
 
 	
 }

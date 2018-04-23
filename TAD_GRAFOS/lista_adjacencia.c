@@ -357,51 +357,64 @@ void busca_profundidade_l(t_grafo_l *lis,int ori,int dest){
 
 	cor[ori] = 1; // cinza
 	prede[ori] = 0;
+	int pilha[100];
+	int ind = -1;
+
+	for (int i = 0; i < lis->n_vertices; ++i){
+
+		if(cor[i] != -1){
+			//printf("i %d\n",i);
+			busca_p_l(lis,prede,i,i,cor,dis,0,pilha,&ind);
+		}
+		
+	}
+
 	
-	busca_p_l(lis,prede,ori,dest,cor,dis,0);
-	
-	/*for (int i = 0; i < lis->n_vertices; ++i){
-		printf("%d ", prede[i]);
+	for (int i = ind; i >= 0; --i){
+		printf("%d ", pilha[i]);
 	}
 	printf("\n");
-	printf("Chama na funcao\n");*/
-	if(prede[dest] != -1){
+	
+	
+	/*if(prede[dest] != -1){
 		busca_l_l(prede,ori,dest);
 		printf("\n");
 	}else{
 		printf("\n");
-	}
+	}*/
 
 }
 
-void busca_p_l(t_grafo_l *lis,int *prede,int ori,int dest, int *cor,int *dis,int time){
+void busca_p_l(t_grafo_l *lis,int *prede,int ori,int dest, int *cor,int *dis,int time, int *pilha, int *ind){
 	
 
 	t_aresta *aux;
 	aux = lis->no[ori];
 	cor[ori] = 1;
 	dis[ori] = time;
+	
 	time++;
+	
 
-	if(ori == dest){
+	/*if(ori == dest){
 		return;
-	}
+	}*/
 
 	while(aux != NULL){
 		if(cor[aux->v2] == 0){
 			prede[aux->v2] = ori;
-			busca_p_l(lis,prede,aux->v2,dest,cor ,dis,time);
+			busca_p_l(lis,prede,aux->v2,dest,cor ,dis,time,pilha,ind);
 		}
 		aux = aux->prox;
 	}
 	cor[ori] = -1;
-
+	pilha[++(*ind)] = ori;
 
 }
 
 void ordenacao_topologica_l(t_grafo_l *lis){
 
-	
-	
-	
+	busca_profundidade_l(lis,0,0);
+		
+		
 }

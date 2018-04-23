@@ -59,8 +59,8 @@ void busca(grafo *g){
 }
 
 void ornacao_topologica(grafo *g){ 
-
-	tipo_grafo(g) == matriz ? ordenacao_topologica_m(g->mat) : ordenacao_topologica_l(g->lis,aux.v1,aux.v2); 
+	
+	tipo_grafo(g) == matriz ? ordenacao_topologica_m(g->mat) : ordenacao_topologica_l(g->lis); 
 }
 
 void infos(grafo *g){ // informações do grafo atual
