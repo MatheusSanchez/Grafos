@@ -23,10 +23,10 @@ int main(){
 	grafo *g = cria_grafo(n_vertices,n_arestas,dir,t_grafo); // criamos um grafo e passamos o tipo de estrutura que ele será representado
 	*/
 
-	//ex 3
-	t_grafo = 'L'; // representação por matriz;
-	op[0] = 'T';
-	op[1] = 'O';
+	//ex 5
+	t_grafo = 'L'; // representação por lista;
+	op[0] = 'D';
+	op[1] = 'I';
 	op[2] = '\0';
 	grafo *g = cria_grafo(n_vertices,n_arestas,dir,t_grafo);
 

@@ -32,5 +32,5 @@ void menu(char *op,grafo *g);
 void busca(grafo *g);
 
 void ornacao_topologica(grafo *g);
-
+void dijkstra(grafo *g);
 #endif

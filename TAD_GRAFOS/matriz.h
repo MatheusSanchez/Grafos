@@ -33,5 +33,6 @@ void menor_aresta_m(t_grafo_m *mat);
 void busca_profundidade_m(t_grafo_m *mat);
 void busca_largura_m(t_grafo_m *mat);
 void ordenacao_topologica_m (t_grafo_m *mat);
+void dijkstra_m (t_grafo_m *mat);
 
 #endif

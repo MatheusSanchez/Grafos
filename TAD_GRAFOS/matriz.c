@@ -149,3 +149,7 @@ void menor_aresta_m(t_grafo_m *mat){
 void ordenacao_topologica_m (t_grafo_m *mat){
 	printf("Ordenacao topologica não foi implementada para grafos do tipo matriz !\n");
 }
+
+void dijkstra_m (t_grafo_m *mat){
+	printf("Algoritmo de Dijkstra não foi implementado para o tipo matriz !\n");
+}

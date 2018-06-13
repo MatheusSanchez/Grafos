@@ -22,15 +22,17 @@ void menu(char *op,grafo *g){ // seleciona a operação e chama a função respe
 		busca(g);
 	}else if(strcmp(op,"TO") == 0){
 		ornacao_topologica(g);
+	}else if(strcmp(op,"DI") == 0){
+		dijkstra(g);
 	}
 
 
 }
 void le_aresta(aresta *aux){ // função auxiliar que realiza a leitura de uma aresta
 
-	//scanf("%d %d %d",&(aux->v1),&(aux->v2),&(aux->peso)); // leitura geral
-	scanf("%d %d",&(aux->v1),&(aux->v2));	// leitura ex 2, sem peso	
-	(aux->peso) = 1;
+	scanf("%d %d %d",&(aux->v1),&(aux->v2),&(aux->peso)); // leitura geral
+	//scanf("%d %d",&(aux->v1),&(aux->v2));	// leitura ex 2, sem peso	
+	//(aux->peso) = 1;
 }
 
 
@@ -113,4 +115,8 @@ void adjacentes(grafo *g){ // acha os vertices adjacentes do vertice "Id"
 
 void menor_aresta(grafo *g){ // acha a menor aresta
 	tipo_grafo(g) == matriz ? menor_aresta_m(g->mat):menor_aresta_l(g->lis);  
+}
+
+void dijkstra(grafo *g){ // acha a menor aresta
+	tipo_grafo(g) == matriz ? dijkstra_m(g->mat):dijkstra_l(g->lis);  
 }
